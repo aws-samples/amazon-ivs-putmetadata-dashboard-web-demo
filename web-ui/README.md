@@ -6,17 +6,7 @@
 * Npm is installed with Node.js
 * PutMetaData Dashboard Serverless app (Please refer to serverless/README.md for details on back-end configuration)
 
-## Running the demo
-
-To run this app, follow these instructions:
-
-1. [Install NodeJS](https://nodejs.org/). Download latest LTS version ("Recommended for Most Users")
-2. Navigate to the web-ui project directory on your local computer.
-3. Run: `npm install`
-4. Run: `npm start`
-5. Open your web browser and navigate to the following URL: http://localhost:3000/
-
-## Configuration
+### Required Configuration
 
 Create a file named `.env` inside the web-ui project directory containing the `ApiURL` from the [serverless app](../serverless).
 
@@ -26,7 +16,15 @@ Replace `<server-endpoint>` with your `ApiURL`.
 echo "REACT_APP_PUT_METADATA_API='<server-endpoint>'" > .env
 ```
 
---------------------------------------------------
+## Running the demo
+
+To run this app, follow these instructions:
+
+1. [Install NodeJS](https://nodejs.org/). Download latest LTS version ("Recommended for Most Users")
+2. Navigate to the web-ui project directory on your local computer.
+3. Run: `npm install`
+4. Run: `npm start`
+5. Open your web browser and navigate to the following URL: http://localhost:3000/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
