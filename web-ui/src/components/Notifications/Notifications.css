@@ -1,0 +1,39 @@
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+		top: -5rem;
+	}
+	100% {
+		opacity: 1;
+		top: 0;
+	}
+}
+
+.notice-error-text {
+	color: var(--color-white);
+}
+
+.notice-success-text {
+	color: var(--color-black);
+}
+
+.notice-container {
+	border-radius: var(--radius-small);
+}
+
+.notice {
+	z-index: 1;
+	position: relative;
+	border-radius: var(--radius-small);
+	animation: fadeIn 0.5s;
+}
+
+.notifications-container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 6rem;
+	right: 2rem;
+	align-items: flex-end;
+	opacity: 1;
+}

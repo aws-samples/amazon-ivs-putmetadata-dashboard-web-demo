@@ -1,0 +1,15 @@
+{
+  "short_name": "PutMetadata Dashboard",
+  "name": "A demo web application intended as an educational tool for demonstrating how you can implement and use a PutMetadata dashboard to send TimedMetadata events to your channels",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

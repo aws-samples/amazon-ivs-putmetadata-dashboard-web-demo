@@ -1,0 +1,12 @@
+.metadata-list {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.metadata-list__scrollable {
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+}

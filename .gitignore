@@ -1,0 +1,25 @@
+# dependencies
+*/node_modules
+*/package-lock.json
+/serverless/dependencies/nodejs.zip
+/serverless/dependencies/nodejs/node_modules
+
+# production
+*/build
+
+# misc
+/serverless/packaged.yaml
+
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local Netlify folder
+.netlify

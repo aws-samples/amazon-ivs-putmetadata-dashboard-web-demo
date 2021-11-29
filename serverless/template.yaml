@@ -1,0 +1,131 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Amazon IVS PutMetadata Dashboard
+
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    Timeout: 30
+    MemorySize: 128
+    Environment:
+      Variables:
+        METADATAS_TABLE_NAME: !Ref Metadatas
+
+Resources:
+  IVSAccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: IVSAccess
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'ivs:ListChannels'
+              - 'ivs:GetChannel'
+              - 'ivs:PutMetadata'
+            Resource: '*'
+      Roles:
+        - Ref: GetIVSChannelsLambdaRole
+        - Ref: SendMetadataLambdaRole
+  Metadatas:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "Id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "Id"
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+  CreateMetadataLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.create
+      CodeUri: lambda/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Metadatas
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /
+            Method: POST
+  UpdateMetadataLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.update
+      CodeUri: lambda/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Metadatas
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /update
+            Method: POST # Workaround for CORS; should be PUT method on '/'
+  GetMetadataLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.get
+      CodeUri: lambda/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Metadatas
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+  GetIVSChannelsLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.getChannels
+      CodeUri: lambda/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Metadatas
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /channels
+            Method: GET
+  SendMetadataLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.send
+      CodeUri: lambda/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Metadatas
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /send
+            Method: POST
+  DeleteMetadataLambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.delete
+      CodeUri: lambda/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Metadatas
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /delete
+            Method: GET # Workaround for CORS; should be DELETE method on '/'
+
+Outputs:
+  ApiURL:
+    Description: "API endpoint URL for Prod environment"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
